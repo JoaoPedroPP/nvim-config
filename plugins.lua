@@ -37,6 +37,15 @@ local plugins = {
     end,
   },
   {
+    "dreamsofcode-io/nvim-dap-go",
+    ft = "go",
+    dependencies = "mfussenegger/nvim-dap",
+    config = function(_, opts)
+      require("dap-go").setup(opts)
+      require("core.utils").load_mappings("dap_go")
+    end
+  },
+  {
     "jose-elias-alvarez/null-ls.nvim",
     ft = {"python"},
     opts = function()
@@ -53,6 +62,7 @@ local plugins = {
         "ruff",
         "pyright",
         "rust-analyzer",
+        "gopls",
       },
     },
   },
@@ -101,7 +111,18 @@ local plugins = {
       table.insert(M.sources, {name = "crates"})
       return M
     end,
-  }
+  },
+  {
+    "olexsmir/gopher.nvim",
+    ft = "go",
+    config = function(_, opts)
+      require("gopher").setup(opts)
+      require("core.utils").load_mappings("gopher")
+    end,
+    build = function()
+      vim.cmd [[silent! GoInstallDeps]]
+    end,
+  },
 }
 return plugins
 
